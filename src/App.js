@@ -1,15 +1,15 @@
 import { useState } from "react";
 import { Container, Navbar, Row, Col } from "react-bootstrap";
-import AddBook from "./components/AddNotes";
-import BooksList from "./components/NotesList";
+import AddNotes from "./components/AddNotes";
+import NotesList from "./components/NotesList";
 import "./App.css";
 
 function App() {
-  const [bookId, setBookId] = useState("");
+  const [notesId, setNotesId] = useState("");
 
-  const getBookIdHandler = (id) => {
+  const getnotesIdHandler = (id) => {
     console.log("The ID of document to be edited: ", id);
-    setBookId(id);
+    setNotesId(id);
   };
   return (
     <>
@@ -22,14 +22,14 @@ function App() {
       <Container style={{ width: "400px" }}>
         <Row>
           <Col>
-            <AddBook id={bookId} setBookId={setBookId} />
+            <AddNotes id={notesId} setNotesId={setNotesId} />
           </Col>
         </Row>
       </Container>
       <Container>
         <Row>
           <Col>
-            <BooksList getBookId={getBookIdHandler} />
+            <NotesList getnotesId={getnotesIdHandler} />
           </Col>
         </Row>
       </Container>

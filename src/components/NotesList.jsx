@@ -1,55 +1,54 @@
 import React, { useEffect, useState } from "react";
 import { Table, Button } from "react-bootstrap";
-import BookDataService from "../services/notes.service";
+import NotesDataService from "../services/notes.service";
 
-const BooksList = ({ getBookId }) => {
-  const [books, setBooks] = useState([]);
+const NotesList = ({ getNotesId }) => {
+  const [notes, setNotes] = useState([]);
   useEffect(() => {
-    getBooks();
+    getNotes();
   }, []);
 
-  const getBooks = async () => {
-    const data = await BookDataService.getAllBooks();
+  const getNotes = async () => {
+    const data = await NotesDataService.getAllNotes();
     console.log(data.docs);
-    setBooks(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    setNotes(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
   };
 
   const deleteHandler = async (id) => {
-    await BookDataService.deleteBook(id);
-    getBooks();
+    await NotesDataService.deleteNotes(id);
+    getNotes();
   };
   return (
     <>
       <div className="mb-2">
-        <Button variant="dark edit" onClick={getBooks}>
+        <Button variant="dark edit" onClick={getNotes}>
           Refresh List
         </Button>
       </div>
 
-      {/* <pre>{JSON.stringify(books, undefined, 2)}</pre>} */}
+      {/* <pre>{JSON.stringify(notes, undefined, 2)}</pre>} */}
       <Table striped bordered hover size="sm">
         <thead>
           <tr>
             <th>#</th>
-            <th>Book Title</th>
-            <th>Book Author</th>
-            <th>Status</th>
+            <th>Title</th>
+            <th>Notes</th>
             <th>Action</th>
           </tr>
         </thead>
         <tbody>
-          {books.map((doc, index) => {
+          {notes.map((doc, index) => {
             return (
               <tr key={doc.id}>
                 <td>{index + 1}</td>
                 <td>{doc.title}</td>
-                <td>{doc.author}</td>
-                <td>{doc.status}</td>
+                <td>{doc.notes}</td>
+        
                 <td>
                   <Button
                     variant="secondary"
                     className="edit"
-                    onClick={(e) => getBookId(doc.id)}
+                    onClick={(e) => getNotesId(doc.id)}
                   >
                     Edit
                   </Button>
@@ -70,4 +69,4 @@ const BooksList = ({ getBookId }) => {
   );
 };
 
-export default BooksList;
+export default NotesList;

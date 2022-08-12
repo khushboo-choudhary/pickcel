@@ -10,30 +10,30 @@ import {
   doc,
 } from "firebase/firestore";
 
-const bookCollectionRef = collection(db, "books");
-class BookDataService {
-  addBooks = (newBook) => {
-    return addDoc(bookCollectionRef, newBook);
+const NotesCollectionRef = collection(db, "notes");
+class NotesDataService {
+  addNotes = (newNotes) => {
+    return addDoc(NotesCollectionRef, newNotes);
   };
 
-  updateBook = (id, updatedBook) => {
-    const bookDoc = doc(db, "books", id);
-    return updateDoc(bookDoc, updatedBook);
+  updateNotes = (id, updatedNotes) => {
+    const notesDoc = doc(db, "notes", id);
+    return updateDoc(notesDoc, updatedNotes);
   };
 
-  deleteBook = (id) => {
-    const bookDoc = doc(db, "books", id);
-    return deleteDoc(bookDoc);
+  deleteNotes = (id) => {
+    const notesDoc = doc(db, "notes", id);
+    return deleteDoc(notesDoc);
   };
 
-  getAllBooks = () => {
-    return getDocs(bookCollectionRef);
+  getAllNotess = () => {
+    return getDocs(NotesCollectionRef);
   };
 
-  getBook = (id) => {
-    const bookDoc = doc(db, "books", id);
-    return getDoc(bookDoc);
+  getNotes = (id) => {
+    const notesDoc = doc(db, "notes", id);
+    return getDoc(notesDoc);
   };
 }
 
-export default new BookDataService();
+export default new NotesDataService();

@@ -1,43 +1,41 @@
 import React, { useState, useEffect } from "react";
-import { Form, Alert, InputGroup, Button, ButtonGroup } from "react-bootstrap";
+import { Form, Alert, InputGroup, Button } from "react-bootstrap";
 import BookDataService from "../services/notes.service";
 
-const AddBook = ({ id, setBookId }) => {
+const AddNotes = ({ id, setNotesId }) => {
   const [title, setTitle] = useState("");
-  const [author, setAuthor] = useState("");
-  const [status, setStatus] = useState("Available");
-  const [flag, setFlag] = useState(true);
+  const [notes, setNotes] = useState("");
   const [message, setMessage] = useState({ error: false, msg: "" });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage("");
-    if (title === "" || author === "") {
+    if (title === "" || notes === "") {
       setMessage({ error: true, msg: "All fields are mandatory!" });
       return;
     }
-    const newBook = {
+    const newNotes = {
       title,
-      author,
-      status,
+      notes,
+     
     };
-    console.log(newBook);
+    console.log(newNotes);
 
     try {
       if (id !== undefined && id !== "") {
-        await BookDataService.updateBook(id, newBook);
-        setBookId("");
+        await BookDataService.updateBook(id, newNotes);
+        setNotesId("");
         setMessage({ error: false, msg: "Updated successfully!" });
       } else {
-        await BookDataService.addBooks(newBook);
-        setMessage({ error: false, msg: "New Book added successfully!" });
+        await BookDataService.addBooks(newNotes);
+        setMessage({ error: false, msg: "New Notes added successfully!" });
       }
     } catch (err) {
       setMessage({ error: true, msg: err.message });
     }
 
     setTitle("");
-    setAuthor("");
+    setNotes("");
   };
 
   const editHandler = async () => {
@@ -46,8 +44,8 @@ const AddBook = ({ id, setBookId }) => {
       const docSnap = await BookDataService.getBook(id);
       console.log("the record is :", docSnap.data());
       setTitle(docSnap.data().title);
-      setAuthor(docSnap.data().author);
-      setStatus(docSnap.data().status);
+      setNotes(docSnap.data().notes);
+      
     } catch (err) {
       setMessage({ error: true, msg: err.message });
     }
@@ -85,39 +83,18 @@ const AddBook = ({ id, setBookId }) => {
             </InputGroup>
           </Form.Group>
 
-          <Form.Group className="mb-3" controlId="formBookAuthor">
+          <Form.Group className="mb-3" controlId="formBooknotes">
             <InputGroup>
-              <InputGroup.Text id="formBookAuthor">A</InputGroup.Text>
+              <InputGroup.Text id="formBooknotes">A</InputGroup.Text>
               <Form.Control
                 type="text"
-                placeholder="Book Author"
-                value={author}
-                onChange={(e) => setAuthor(e.target.value)}
+                placeholder="Book notes"
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
               />
             </InputGroup>
           </Form.Group>
-          <ButtonGroup aria-label="Basic example" className="mb-3">
-            <Button
-              disabled={flag}
-              variant="success"
-              onClick={(e) => {
-                setStatus("Available");
-                setFlag(true);
-              }}
-            >
-              Available
-            </Button>
-            <Button
-              variant="danger"
-              disabled={!flag}
-              onClick={(e) => {
-                setStatus("Not Available");
-                setFlag(false);
-              }}
-            >
-              Not Available
-            </Button>
-          </ButtonGroup>
+         
           <div className="d-grid gap-2">
             <Button variant="primary" type="Submit">
               Add/ Update
@@ -129,4 +106,4 @@ const AddBook = ({ id, setBookId }) => {
   );
 };
 
-export default AddBook;
+export default AddNotes;
